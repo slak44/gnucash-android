@@ -16,10 +16,8 @@
  limitations under the License.
 -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-
+<resources>
     <style name="Theme.GnucashTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
         <!-- Set AppCompat’s actionBarStyle
         <item name="actionBarStyle">@style/MyActionBarStyle</item>
         -->
@@ -37,8 +35,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
-    <style name="Theme.GnucashTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-
+    <style name="Theme.GnucashTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Set Spinner styles -->
         <item name="android:spinnerItemStyle">@style/spinnerItemTextStyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAccountSimpleNameStyle</item>
