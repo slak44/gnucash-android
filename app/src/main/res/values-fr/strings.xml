@@ -54,7 +54,7 @@
   <string name="btn_export">Exporter</string>
   <string name="option_delete_after_export">Effacer les transactions après export</string>
   <string name="hint_delete_after_export">Toutes les transactions exportées seront supprimées après l\'export</string>
-  <string name="title_settings">Paramètres</string>
+    <string name="title_settings">Préférences / Maintenance</string>
   <string-array name="export_destinations">
     <item>Enregistrer sous &#8230;</item>
     <item>Dropbox</item>
@@ -65,7 +65,7 @@
   <string name="title_move_transactions">Déplacer %1$d transaction(s)</string>
   <string name="label_move_destination">Compte de destination</string>
   <string name="toast_incompatible_currency">Impossible de déplacer les transactions.\nLe compte de destination utilise une monnaie différente du compte d\'origine</string>
-  <string name="header_general_settings">Général</string>
+    <string name="header_general_settings">Générales</string>
   <string name="header_about_gnucash">À propos</string>
   <string name="title_choose_currency">Choisisez une monnaie par défaut</string>
   <string name="title_default_currency">Monnaie par défaut</string>
@@ -95,7 +95,7 @@
   <string name="title_transaction_preferences">Préférences des transactions</string>
   <string name="title_account_preferences">Préférences du compte</string>
   <string name="title_default_transaction_type">Type de transaction par défaut</string>
-  <string name="summary_default_transaction_type">Le type de transaction à utiliser par défaut, CRÉDIT ou DÉBIT</string>
+  <string name="summary_default_transaction_type">CRÉDIT</string>
   <string-array name="transaction_types">
     <item>CRÉDIT</item>
     <item>DÉBIT</item>
@@ -109,7 +109,7 @@
   <string name="summary_default_export_email">Email par défaut pour les exports. Vous pourrez toujours le changer lors de votre prochain export.</string>
   <string name="summary_use_double_entry">Toutes les transactions seront un transfert d’un compte à un autre</string>
   <string name="title_use_double_entry">Activer la Double entrée</string>
-  <string name="account_balance">Solde</string>
+  <string name="account_balance">Solde du Compte à la date indiquée ci-dessous</string>
   <string name="toast_no_account_name_entered">Entrer un nom de compte pour créer un compte</string>
   <string name="label_account_currency">Monnaie</string>
   <string name="label_parent_account">Compte parent</string>
@@ -145,7 +145,7 @@
   <string name="title_progress_exporting_transactions">Exportation des transactions</string>
   <string name="label_no_recurring_transactions">Pas de transactions planifiées à afficher.</string>
   <string name="toast_recurring_transaction_deleted">Transaction récurrente supprimée avec succès</string>
-  <string name="label_placeholder_account">Compte de référence</string>
+  <string name="label_placeholder_account">Compte virtuel</string>
   <string name="label_default_transfer_account">Compte de transfert par défaut</string>
   <plurals name="label_sub_accounts">
     <item quantity="one">%d sous-compte</item>
@@ -258,7 +258,7 @@
   <string name="nav_menu_open">Ouvrir&#8230;</string>
   <string name="nav_menu_reports">Rapports</string>
   <string name="nav_menu_export">Export&#8230;</string>
-  <string name="nav_menu_settings">Paramètres</string>
+    <string name="nav_menu_settings">Préférences / Maintenance</string>
   <string name="username">Nom d\'utilisateur</string>
   <string name="password">Mot de passe</string>
   <string name="owncloud_pref">ownCloud</string>
