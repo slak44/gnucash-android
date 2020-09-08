@@ -21,17 +21,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.SystemClock;
-import androidx.annotation.NonNull;
-import androidx.multidex.MultiDexApplication;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDexApplication;
+import androidx.preference.PreferenceManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -120,6 +120,7 @@ public class GnuCashApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         super.onCreate();
         GnuCashApplication.context = getApplicationContext();
 
@@ -136,15 +137,6 @@ public class GnuCashApplication extends MultiDexApplication {
         setDefaultCurrencyCode(getDefaultCurrencyCode());
 
         StethoUtils.install(this);
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        Configuration configuration = new Configuration(getResources().getConfiguration());
-        configuration.uiMode = Configuration.UI_MODE_NIGHT_YES;
-        Context context = base.createConfigurationContext(configuration);
-        super.attachBaseContext(context);
     }
 
     /**
