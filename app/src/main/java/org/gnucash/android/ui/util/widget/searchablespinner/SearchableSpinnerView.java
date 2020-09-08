@@ -5,17 +5,15 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.support.v4.widget.CursorAdapter;
+import androidx.cursoradapter.widget.CursorAdapter;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import org.gnucash.android.db.DatabaseSchema;
-import org.gnucash.android.util.QualifiedAccountNameCursorAdapter;
 
 /**
  * Spinner that open a dialog box with text search criteria
@@ -27,7 +25,7 @@ import org.gnucash.android.util.QualifiedAccountNameCursorAdapter;
  *  * @author JeanGarf
  */
 public class SearchableSpinnerView<T_ITEM>
-        extends android.support.v7.widget.AppCompatSpinner
+        extends androidx.appcompat.widget.AppCompatSpinner
         implements View.OnTouchListener,
                    SearchableListDialogFragment.OnSearchableItemClickedListener<T_ITEM> {
 

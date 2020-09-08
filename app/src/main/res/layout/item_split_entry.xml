@@ -95,7 +95,7 @@ limitations under the License.
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -114,7 +114,7 @@ limitations under the License.
             android:background="@android:color/transparent"
             android:gravity="top" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Split Separator -->
     <View
