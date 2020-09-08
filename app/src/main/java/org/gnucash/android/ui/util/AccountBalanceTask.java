@@ -48,7 +48,7 @@ public class AccountBalanceTask extends AsyncTask<String, Void, Money> {
     @Override
     protected Money doInBackground(String... params) {
         //if the view for which we are doing this job is dead, kill the job as well
-        if (accountBalanceTextViewReference.get() == null){
+        if (accountBalanceTextViewReference.get() == null) {
             cancel(true);
             return Money.getZeroInstance();
         }
@@ -67,7 +67,7 @@ public class AccountBalanceTask extends AsyncTask<String, Void, Money> {
     protected void onPostExecute(Money balance) {
         if (accountBalanceTextViewReference.get() != null && balance != null){
             final TextView balanceTextView = accountBalanceTextViewReference.get();
-            if (balanceTextView != null){
+            if (balanceTextView != null) {
                 TransactionsActivity.displayBalance(balanceTextView, balance);
             }
         }

@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -32,11 +31,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -315,7 +317,6 @@ public class TransactionsActivity extends BaseDrawerActivity implements
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -323,9 +324,7 @@ public class TransactionsActivity extends BaseDrawerActivity implements
 		mAccountUID = getIntent().getStringExtra(UxArgument.SELECTED_ACCOUNT_UID);
         mAccountsDbAdapter = AccountsDbAdapter.getInstance();
 
-        //
-        // Add Tranbsaction Page
-        //
+        // Add Transaction Page
 
         mIsPlaceholderAccount = mAccountsDbAdapter.isPlaceholderAccount(getCurrentAccountUID());
 
@@ -540,14 +539,18 @@ public class TransactionsActivity extends BaseDrawerActivity implements
      * @param balanceTextView {@link android.widget.TextView} where balance is to be displayed
      * @param balance {@link org.gnucash.android.model.Money} balance to display
      */
-    public static void displayBalance(TextView balanceTextView, Money balance){
+    public static void displayBalance(TextView balanceTextView, Money balance) {
         balanceTextView.setText(balance.formattedString());
         Context context = GnuCashApplication.getAppContext();
         int fontColor = balance.isNegative() ?
                 context.getResources().getColor(R.color.debit_red) :
                 context.getResources().getColor(R.color.credit_green);
-        if (balance.asBigDecimal().compareTo(BigDecimal.ZERO) == 0)
-            fontColor = context.getResources().getColor(android.R.color.black);
+        if (balance.asBigDecimal().compareTo(BigDecimal.ZERO) == 0) {
+            TypedValue typedValue = new TypedValue();
+            context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
+            int colorRes = typedValue.resourceId != 0 ? typedValue.resourceId : typedValue.data;
+            fontColor = ContextCompat.getColor(context, colorRes);
+        }
         balanceTextView.setTextColor(fontColor);
     }
 
