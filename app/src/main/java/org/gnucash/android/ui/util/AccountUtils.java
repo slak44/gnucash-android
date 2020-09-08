@@ -1,6 +1,6 @@
 package org.gnucash.android.ui.util;
 
-import android.support.v7.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.widget.TextView;
 
 import org.gnucash.android.R;
