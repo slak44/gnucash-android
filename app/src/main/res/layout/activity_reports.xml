@@ -27,19 +27,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ScrollView android:id="@+id/fragment_view"
+
+        <ScrollView
+            android:id="@+id/fragment_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <RelativeLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
 
-                <include android:id="@+id/toolbar_layout"
+                <include
+                    android:id="@+id/toolbar_layout"
                     layout="@layout/toolbar_with_spinner" />
 
-                <FrameLayout android:id="@+id/fragment_container"
+                <FrameLayout
+                    android:id="@+id/fragment_container"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_below="@id/toolbar_layout"
@@ -48,20 +53,23 @@
             </RelativeLayout>
         </ScrollView>
 
-        <View android:id="@+id/date_range_divider"
+        <View
+            android:id="@+id/date_range_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="5dp"
             android:layout_below="@id/fragment_view"
             android:background="@android:color/darker_gray" />
 
-        <LinearLayout android:id="@+id/time_range_layout"
+        <LinearLayout
+            android:id="@+id/time_range_layout"
             android:padding="@dimen/dialog_padding"
             android:weightSum="4"
             android:layout_below="@id/date_range_divider"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="120dp">
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="0.8"
@@ -69,7 +77,7 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="14sp"
                 android:layout_height="match_parent"
-                android:text="@string/label_report_period"/>
+                android:text="@string/label_report_period" />
 
             <org.gnucash.android.ui.util.widget.ReselectSpinner
                 android:id="@+id/time_range_spinner"
@@ -79,19 +87,19 @@
 
             <Spinner
                 android:id="@+id/report_account_type_spinner"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_width="0dp"
                 android:layout_weight="1.4"
-                android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_height="match_parent" />
         </LinearLayout>
     </RelativeLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_drawer_header"
-        app:menu="@menu/nav_drawer_menu"/>
+        app:menu="@menu/nav_drawer_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

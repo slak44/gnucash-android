@@ -21,9 +21,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -37,10 +39,12 @@ import org.gnucash.android.model.Account;
 import org.gnucash.android.ui.report.BaseReportFragment;
 import org.gnucash.android.ui.report.ReportType;
 import org.gnucash.android.ui.report.ReportsActivity;
+import org.gnucash.android.ui.util.TextUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -67,7 +71,8 @@ public class PieChartFragment extends BaseReportFragment {
      */
     private static final double GROUPING_SMALLER_SLICES_THRESHOLD = 5;
 
-    @BindView(R.id.pie_chart) PieChart mChart;
+    @BindView(R.id.pie_chart)
+    PieChart mChart;
 
     private AccountsDbAdapter mAccountsDbAdapter;
 
@@ -81,19 +86,22 @@ public class PieChartFragment extends BaseReportFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mUseAccountColor = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .getBoolean(getString(R.string.key_use_account_color), false);
+        mUseAccountColor = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(getString(R.string.key_use_account_color), false);
 
         mAccountsDbAdapter = AccountsDbAdapter.getInstance();
 
+        final int textColor = TextUtil.getTextPrimary(getContext());
 
+        mChart.setHoleColorTransparent(true);
+        mChart.setCenterTextColor(textColor);
         mChart.setCenterTextSize(CENTER_TEXT_SIZE);
         mChart.setDescription("");
         mChart.setOnChartValueSelectedListener(this);
         mChart.getLegend().setForm(LegendForm.CIRCLE);
         mChart.getLegend().setWordWrapEnabled(true);
         mChart.getLegend().setPosition(LegendPosition.BELOW_CHART_CENTER);
-
+        mChart.getLegend().setTextColor(textColor);
+        mChart.setTransparentCircleColor(getResources().getColor(android.R.color.transparent));
     }
 
     @Override
@@ -114,13 +122,14 @@ public class PieChartFragment extends BaseReportFragment {
     @Override
     protected void generateReport() {
         PieData pieData = getData();
-        if (pieData != null && pieData.getYValCount() != 0) {
+        if (pieData.getYValCount() != 0) {
             mChartDataPresent = true;
-            mChart.setData(mGroupSmallerSlices ? groupSmallerSlices(pieData, getActivity()) : pieData);
+            final PieData data = mGroupSmallerSlices ? groupSmallerSlices(pieData, getActivity()) : pieData;
+            mChart.setData(data);
             float sum = mChart.getData().getYValueSum();
             String total = getResources().getString(R.string.label_chart_total);
             String currencySymbol = mCommodity.getSymbol();
-            mChart.setCenterText(String.format(TOTAL_VALUE_LABEL_PATTERN, total, sum, currencySymbol));
+            mChart.setCenterText(String.format(Locale.getDefault(), TOTAL_VALUE_LABEL_PATTERN, total, sum, currencySymbol));
         } else {
             mChartDataPresent = false;
             mChart.setCenterText(getResources().getString(R.string.label_chart_no_data));
@@ -130,7 +139,7 @@ public class PieChartFragment extends BaseReportFragment {
 
     @Override
     protected void displayReport() {
-        if (mChartDataPresent){
+        if (mChartDataPresent) {
             mChart.animateXY(ANIMATION_DURATION, ANIMATION_DURATION);
         }
 
@@ -142,6 +151,7 @@ public class PieChartFragment extends BaseReportFragment {
 
     /**
      * Returns {@code PieData} instance with data entries, colors and labels
+     *
      * @return {@code PieData} instance
      */
     private PieData getData() {
@@ -149,12 +159,9 @@ public class PieChartFragment extends BaseReportFragment {
         List<String> labels = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
         for (Account account : mAccountsDbAdapter.getSimpleAccountList()) {
-            if (account.getAccountType() == mAccountType
-                    && !account.isPlaceholderAccount()
-                    && account.getCommodity().equals(mCommodity)) {
-
-                double balance = mAccountsDbAdapter.getAccountsBalance(Collections.singletonList(account.getUID()),
-                        mReportPeriodStart, mReportPeriodEnd).asDouble();
+            if (account.getAccountType() == mAccountType && !account.isPlaceholderAccount() && account.getCommodity().equals(mCommodity)) {
+                double balance = mAccountsDbAdapter
+                        .getAccountsBalance(Collections.singletonList(account.getUID()), mReportPeriodStart, mReportPeriodEnd).asDouble();
                 if (balance > 0) {
                     dataSet.addEntry(new Entry((float) balance, dataSet.getEntryCount()));
                     int color;
@@ -175,9 +182,9 @@ public class PieChartFragment extends BaseReportFragment {
         return new PieData(labels, dataSet);
     }
 
-
     /**
      * Returns a data object that represents situation when no user data available
+     *
      * @return a {@code PieData} instance for situation when no user data available
      */
     private PieData getEmptyData() {
@@ -198,9 +205,9 @@ public class PieChartFragment extends BaseReportFragment {
         float tmp1;
         String tmp2;
         Integer tmp3;
-        for(int i = 0; i < values.size() - 1; i++) {
-            for(int j = 1; j < values.size() - i; j++) {
-                if (values.get(j-1).getVal() > values.get(j).getVal()) {
+        for (int i = 0; i < values.size() - 1; i++) {
+            for (int j = 1; j < values.size() - i; j++) {
+                if (values.get(j - 1).getVal() > values.get(j).getVal()) {
                     tmp1 = values.get(j - 1).getVal();
                     values.get(j - 1).setVal(values.get(j).getVal());
                     values.get(j).setVal(tmp1);
@@ -266,7 +273,8 @@ public class PieChartFragment extends BaseReportFragment {
 
     /**
      * Groups smaller slices. All smaller slices will be combined and displayed as a single "Other".
-     * @param data the pie data which smaller slices will be grouped
+     *
+     * @param data    the pie data which smaller slices will be grouped
      * @param context Context for retrieving resources
      * @return a {@code PieData} instance with combined smaller slices
      */
@@ -305,6 +313,6 @@ public class PieChartFragment extends BaseReportFragment {
         String label = mChart.getData().getXVals().get(e.getXIndex());
         float value = e.getVal();
         float percent = value / mChart.getData().getYValueSum() * 100;
-        mSelectedValueTextView.setText(String.format(SELECTED_VALUE_PATTERN, label, value, percent));
+        mSelectedValueTextView.setText(String.format(Locale.getDefault(), SELECTED_VALUE_PATTERN, label, value, percent));
     }
 }
