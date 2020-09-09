@@ -20,14 +20,16 @@
     <!-- Customize Spinner appearance -->
 
     <style name="spinnerItemTextStyle" parent="@android:style/Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/bpblack</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">8dp</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">start</item>
     </style>
 
     <style name="SpinnerDropDownItemAccountSimpleNameStyle" parent="spinnerItemTextStyle">
-        <item name="android:textColor">@color/bpblack</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:ellipsize">middle</item>
     </style>
 
@@ -61,8 +63,13 @@
     <!-- Spinner item with down arrow -->
     <style name="Dropdown.TextView" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
-    
+
+    <style name="Spinner" parent="Theme.GnucashTheme.NoActionBar">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
     <style name="ButtonBaseStyle">
         <item name="android:textColor">@android:color/white</item>
     </style>
