@@ -42,7 +42,7 @@
 
     <!-- Customize List appearance -->
 
-    <style name="ListItemContainerBase">
+    <style name="ListItemContainerBase" parent="Theme.GnucashTheme.NoActionBar">
         <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
     </style>
 
@@ -54,7 +54,7 @@
         <item name="android:gravity">center_vertical</item>
     </style>
     
-    <style name="ListItemText">
+    <style name="ListItemText" parent="Theme.GnucashTheme.NoActionBar">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:gravity">center_vertical</item>
@@ -171,7 +171,7 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog">
+    <style name="CustomDialog" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="android:windowNoTitle">false</item>
     </style>
 
