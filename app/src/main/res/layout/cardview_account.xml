@@ -62,6 +62,7 @@
             android:paddingLeft="24dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_more_vert_black_24dp"
+            android:tint="?attr/colorControlNormal"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -76,6 +77,7 @@
             android:paddingLeft="24dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_add_black_24dp"
+            android:tint="?attr/colorControlNormal"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -89,6 +91,7 @@
             android:paddingStart="22dp"
             android:paddingBottom="22dp"
             android:src="@drawable/ic_star_border_black_24dp"
+            android:tint="?attr/colorControlNormal"
             tools:ignore="ContentDescription" />
 
         <TextView
