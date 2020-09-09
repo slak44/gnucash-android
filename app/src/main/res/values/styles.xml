@@ -155,6 +155,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:tint">?attr/colorControlNormal</item>
     </style>
 
     <style name="ActionMenuText" parent="Theme.AppCompat.Light.DarkActionBar">
