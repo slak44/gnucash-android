@@ -98,6 +98,7 @@
             android:maxLines="1"
             android:layout_alignParentBottom="true"
             android:paddingBottom="4dp"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="18sp"
             tools:text="$ 2000.00"
             android:layout_alignBottom="@id/options_menu"
