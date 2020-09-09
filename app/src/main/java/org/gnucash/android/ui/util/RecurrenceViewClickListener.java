@@ -17,10 +17,11 @@
 package org.gnucash.android.ui.util;
 
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.format.Time;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.codetroopers.betterpickers.recurrencepicker.RecurrencePickerDialogFragment;
 import com.codetroopers.betterpickers.recurrencepicker.RecurrencePickerDialogFragment.OnRecurrenceSetListener;
@@ -28,15 +29,14 @@ import com.codetroopers.betterpickers.recurrencepicker.RecurrencePickerDialogFra
 /**
  * Shows the recurrence dialog when the recurrence view is clicked
  */
-public class RecurrenceViewClickListener implements View.OnClickListener{
-    private static final String FRAGMENT_TAG_RECURRENCE_PICKER  = "recurrence_picker";
+public class RecurrenceViewClickListener implements View.OnClickListener {
+    private static final String FRAGMENT_TAG_RECURRENCE_PICKER = "recurrence_picker";
 
     AppCompatActivity mActivity;
     String mRecurrenceRule;
     OnRecurrenceSetListener mRecurrenceSetListener;
 
-    public RecurrenceViewClickListener(AppCompatActivity activity, String recurrenceRule,
-                                       OnRecurrenceSetListener recurrenceSetListener){
+    public RecurrenceViewClickListener(AppCompatActivity activity, String recurrenceRule, OnRecurrenceSetListener recurrenceSetListener) {
         this.mActivity = activity;
         this.mRecurrenceRule = recurrenceRule;
         this.mRecurrenceSetListener = recurrenceSetListener;
@@ -54,8 +54,7 @@ public class RecurrenceViewClickListener implements View.OnClickListener{
         // may be more efficient to serialize and pass in EventRecurrence
         b.putString(RecurrencePickerDialogFragment.BUNDLE_RRULE, mRecurrenceRule);
 
-        RecurrencePickerDialogFragment rpd = (RecurrencePickerDialogFragment) fm.findFragmentByTag(
-                FRAGMENT_TAG_RECURRENCE_PICKER);
+        RecurrencePickerDialogFragment rpd = (RecurrencePickerDialogFragment) fm.findFragmentByTag(FRAGMENT_TAG_RECURRENCE_PICKER);
         if (rpd != null) {
             rpd.dismiss();
         }
