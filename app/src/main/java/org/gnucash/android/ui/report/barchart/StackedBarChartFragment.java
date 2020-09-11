@@ -19,11 +19,12 @@ package org.gnucash.android.ui.report.barchart;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -41,6 +42,7 @@ import org.gnucash.android.model.Account;
 import org.gnucash.android.model.AccountType;
 import org.gnucash.android.ui.report.BaseReportFragment;
 import org.gnucash.android.ui.report.ReportType;
+import org.gnucash.android.ui.util.TextUtil;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
@@ -50,6 +52,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -73,7 +76,8 @@ public class StackedBarChartFragment extends BaseReportFragment {
 
     private AccountsDbAdapter mAccountsDbAdapter = AccountsDbAdapter.getInstance();
 
-    @BindView(R.id.bar_chart) BarChart mChart;
+    @BindView(R.id.bar_chart)
+    BarChart mChart;
 
     private boolean mUseAccountColor = true;
     private boolean mTotalPercentageMode = true;
@@ -98,27 +102,33 @@ public class StackedBarChartFragment extends BaseReportFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        final int textColor = TextUtil.getTextPrimary(getContext());
+
         mUseAccountColor = PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .getBoolean(getString(R.string.key_use_account_color), false);
 
+        mChart.setGridBackgroundColor(getResources().getColor(android.R.color.transparent));
         mChart.setOnChartValueSelectedListener(this);
         mChart.setDescription("");
-//        mChart.setDrawValuesForWholeStack(false);
+        //        mChart.setDrawValuesForWholeStack(false);
         mChart.getXAxis().setDrawGridLines(false);
+        mChart.getXAxis().setTextColor(textColor);
         mChart.getAxisRight().setEnabled(false);
         mChart.getAxisLeft().setStartAtZero(false);
         mChart.getAxisLeft().enableGridDashedLine(4.0f, 4.0f, 0);
         mChart.getAxisLeft().setValueFormatter(new LargeValueFormatter(mCommodity.getSymbol()));
+        mChart.getAxisLeft().setTextColor(textColor);
         Legend chartLegend = mChart.getLegend();
         chartLegend.setForm(Legend.LegendForm.CIRCLE);
         chartLegend.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
         chartLegend.setWordWrapEnabled(true);
-
+        chartLegend.setTextColor(textColor);
     }
 
 
     /**
      * Returns a data object that represents a user data of the specified account types
+     *
      * @return a {@code BarData} instance that represents a user data
      */
     protected BarData getData() {
@@ -146,7 +156,7 @@ public class StackedBarChartFragment extends BaseReportFragment {
                     start = tmpDate.withMonthOfYear(quarter * 3 - 2).dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate().getTime();
                     end = tmpDate.withMonthOfYear(quarter * 3).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue().toDate().getTime();
 
-                    xValues.add(String.format(X_AXIS_QUARTER_PATTERN, quarter, tmpDate.toString(" YY")));
+                    xValues.add(String.format(Locale.getDefault(), X_AXIS_QUARTER_PATTERN, quarter, tmpDate.toString(" YY")));
                     tmpDate = tmpDate.plusMonths(3);
                     break;
                 case YEAR:
@@ -163,8 +173,8 @@ public class StackedBarChartFragment extends BaseReportFragment {
                         && !account.isPlaceholderAccount()
                         && account.getCommodity().equals(mCommodity)) {
 
-                    double balance = mAccountsDbAdapter.getAccountsBalance(
-                            Collections.singletonList(account.getUID()), start, end).asDouble();
+                    double balance =
+                            mAccountsDbAdapter.getAccountsBalance(Collections.singletonList(account.getUID()), start, end).asDouble();
                     if (balance != 0) {
                         stack.add((float) balance);
 
@@ -206,7 +216,7 @@ public class StackedBarChartFragment extends BaseReportFragment {
 
         BarDataSet set = new BarDataSet(values, "");
         set.setDrawValues(false);
-        set.setStackLabels(labels.toArray(new String[labels.size()]));
+        set.setStackLabels(labels.toArray(new String[0]));
         set.setColors(colors);
 
         if (set.getYValueSum() == 0) {
@@ -219,6 +229,7 @@ public class StackedBarChartFragment extends BaseReportFragment {
 
     /**
      * Returns a data object that represents situation when no user data available
+     *
      * @return a {@code BarData} instance for situation when no user data available
      */
     private BarData getEmptyData() {
@@ -237,6 +248,7 @@ public class StackedBarChartFragment extends BaseReportFragment {
 
     /**
      * Returns the start data of x-axis for the specified account type
+     *
      * @param accountType account type
      * @return the start data
      */
@@ -256,6 +268,7 @@ public class StackedBarChartFragment extends BaseReportFragment {
 
     /**
      * Returns the end data of x-axis for the specified account type
+     *
      * @param accountType account type
      * @return the end data
      */
@@ -275,12 +288,13 @@ public class StackedBarChartFragment extends BaseReportFragment {
 
     /**
      * Converts the specified list of floats to an array
+     *
      * @param list a list of floats
      * @return a float array
      */
     private float[] floatListToArray(List<Float> list) {
-        float array[] = new float[list.size()];
-        for (int i = 0;  i < list.size(); i++) {
+        float[] array = new float[list.size()];
+        for (int i = 0; i < list.size(); i++) {
             array[i] = list.get(i);
         }
         return array;
@@ -384,7 +398,7 @@ public class StackedBarChartFragment extends BaseReportFragment {
         } else {
             sum = entry.getNegativeSum() + entry.getPositiveSum();
         }
-        mSelectedValueTextView.setText(String.format(SELECTED_VALUE_PATTERN, label.trim(), value, value / sum * 100));
+        mSelectedValueTextView.setText(String.format(Locale.getDefault(), SELECTED_VALUE_PATTERN, label.trim(), value, value / sum * 100));
     }
 
 }
