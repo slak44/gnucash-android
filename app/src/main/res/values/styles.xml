@@ -170,9 +170,4 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
-
-    <style name="CustomDialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="android:windowNoTitle">false</item>
-    </style>
-
 </resources>

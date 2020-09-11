@@ -53,7 +53,11 @@
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-        <!-- <item name="colorControlNormal">@android:color/white</item> -->
+    </style>
+
+    <style name="Theme.GnucashTheme.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:windowNoTitle">false</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
