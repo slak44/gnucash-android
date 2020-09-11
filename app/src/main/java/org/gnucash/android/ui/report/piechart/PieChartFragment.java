@@ -24,7 +24,6 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -50,6 +49,7 @@ import butterknife.BindView;
 
 import static com.github.mikephil.charting.components.Legend.LegendForm;
 import static com.github.mikephil.charting.components.Legend.LegendPosition;
+import static org.gnucash.android.ui.report.ReportsOverviewFragment.VALUE_TEXT_SIZE;
 
 /**
  * Activity used for drawing a pie chart
@@ -135,6 +135,7 @@ public class PieChartFragment extends BaseReportFragment {
             mChart.setCenterText(getResources().getString(R.string.label_chart_no_data));
             mChart.setData(getEmptyData());
         }
+        mChart.getData().setValueTextSize(VALUE_TEXT_SIZE);
     }
 
     @Override
