@@ -26,6 +26,10 @@ import androidx.fragment.app.FragmentManager;
 import com.codetroopers.betterpickers.recurrencepicker.RecurrencePickerDialogFragment;
 import com.codetroopers.betterpickers.recurrencepicker.RecurrencePickerDialogFragment.OnRecurrenceSetListener;
 
+import org.gnucash.android.R;
+
+import static androidx.fragment.app.DialogFragment.STYLE_NORMAL;
+
 /**
  * Shows the recurrence dialog when the recurrence view is clicked
  */
@@ -59,6 +63,7 @@ public class RecurrenceViewClickListener implements View.OnClickListener {
             rpd.dismiss();
         }
         rpd = new RecurrencePickerDialogFragment();
+        rpd.setStyle(STYLE_NORMAL, R.style.Theme_GnucashTheme_Dialog);
         rpd.setArguments(b);
         rpd.setOnRecurrenceSetListener(mRecurrenceSetListener);
         rpd.show(fm, FRAGMENT_TAG_RECURRENCE_PICKER);
