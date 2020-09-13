@@ -69,6 +69,8 @@ import io.fabric.sdk.android.Fabric;
  * @author Ngewi Fet <ngewif@gmail.com>
  */
 public class GnuCashApplication extends MultiDexApplication {
+    public static final String TAG = "GnuCashApplication";
+
     /**
      * Authority (domain) for the file provider. Also used in the app manifest
      */
@@ -85,6 +87,7 @@ public class GnuCashApplication extends MultiDexApplication {
     public static long PASSCODE_SESSION_INIT_TIME = 0L;
 
     private static Context context;
+    private static GnuCashApplication applicationInstance;
 
     private static AccountsDbAdapter mAccountsDbAdapter;
 
@@ -118,9 +121,46 @@ public class GnuCashApplication extends MultiDexApplication {
         return Color.HSVToColor(hsv);
     }
 
+    /**
+     * Call {@link AppCompatDelegate#setDefaultNightMode} based on the given preference value.
+     *
+     * @return one of the <pre>AppCompatDelegate.MODE_NIGHT_*</pre> constants
+     * @author Ștefan Silviu-Alexandru <stefan.silviu.alexandru@gmail.com>
+     */
+    public int configureDayNight(@NonNull String dayNightPrefValue) {
+        Log.d(TAG, "Changing theme to: " + dayNightPrefValue);
+        int uiMode;
+        switch (dayNightPrefValue) {
+            case "light":
+                uiMode = AppCompatDelegate.MODE_NIGHT_NO;
+                break;
+            case "dark":
+                uiMode = AppCompatDelegate.MODE_NIGHT_YES;
+                break;
+            case "follow_system":
+            default:
+                uiMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+        }
+        AppCompatDelegate.setDefaultNightMode(uiMode);
+        return uiMode;
+    }
+
+    /**
+     * Automatically get current pref value, and enable it.
+     *
+     * @author Ștefan Silviu-Alexandru <stefan.silviu.alexandru@gmail.com>
+     * @see #configureDayNight(String)
+     */
+    public int configureDayNight() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final String themePref = prefs.getString(getString(R.string.key_theme_option), getString(R.string.key_theme_options_default));
+        return configureDayNight(themePref);
+    }
+
     @Override
     public void onCreate() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        applicationInstance = this;
+        configureDayNight();
         super.onCreate();
         GnuCashApplication.context = getApplicationContext();
 
@@ -221,6 +261,14 @@ public class GnuCashApplication extends MultiDexApplication {
      */
     public static SQLiteDatabase getActiveDb() {
         return mDbHelper.getWritableDatabase();
+    }
+
+    /**
+     * Get singleton instance.
+     */
+    public static @NonNull
+    GnuCashApplication getInstance() {
+        return applicationInstance;
     }
 
     /**

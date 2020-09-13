@@ -20,25 +20,30 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.CheckBoxPreference;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.PreferenceFragmentCompat;
+
 import org.gnucash.android.R;
+import org.gnucash.android.app.GnuCashApplication;
 import org.gnucash.android.ui.common.UxArgument;
 import org.gnucash.android.ui.passcode.PasscodeLockScreenActivity;
 import org.gnucash.android.ui.passcode.PasscodePreferenceActivity;
 
-/**
- * Fragment for general preferences. Currently caters to the passcode and reporting preferences
- * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
- */
-public class GeneralPreferenceFragment extends PreferenceFragmentCompat implements
-        androidx.preference.Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
+import java.util.Objects;
 
+/**
+ * Fragment for general preferences. Passcode settings, report settings, various UI settings.
+ *
+ * @author Oleksandr Tyshkovets <olexandr.tyshkovets@gmail.com>
+ * @author Ștefan Silviu-Alexandru <stefan.silviu.alexandru@gmail.com>
+ */
+public class GeneralPreferenceFragment extends PreferenceFragmentCompat {
     /**
      * Request code for retrieving passcode to store
      */
@@ -55,9 +60,12 @@ public class GeneralPreferenceFragment extends PreferenceFragmentCompat implemen
     private SharedPreferences.Editor mEditor;
     private CheckBoxPreference mCheckBoxPreference;
 
+    private @NonNull AppCompatActivity getCompatActivity() {
+        return ((AppCompatActivity) Objects.requireNonNull(getActivity()));
+    }
+
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
-
         addPreferencesFromResource(R.xml.fragment_general_preferences);
     }
 
@@ -65,7 +73,7 @@ public class GeneralPreferenceFragment extends PreferenceFragmentCompat implemen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = Objects.requireNonNull(getCompatActivity().getSupportActionBar());
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.title_general_prefs);
@@ -75,118 +83,36 @@ public class GeneralPreferenceFragment extends PreferenceFragmentCompat implemen
     public void onResume() {
         super.onResume();
 
-        final Intent intent = new Intent(getActivity(), PasscodePreferenceActivity.class);
-
         mCheckBoxPreference = (CheckBoxPreference) findPreference(getString(R.string.key_enable_passcode));
-        mCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if ((Boolean) newValue) {
-                    startActivityForResult(intent, PASSCODE_REQUEST_CODE);
-                } else {
-                    Intent passIntent = new Intent(getActivity(), PasscodeLockScreenActivity.class);
-                    passIntent.putExtra(UxArgument.DISABLE_PASSCODE, UxArgument.DISABLE_PASSCODE);
-                    startActivityForResult(passIntent, REQUEST_DISABLE_PASSCODE);
-                }
-                return true;
-            }
-        });
-        findPreference(getString(R.string.key_change_passcode)).setOnPreferenceClickListener(this);
-    }
-
-    @Override
-    public boolean onPreferenceClick(Preference preference) {
-        String key = preference.getKey();
-        if (key.equals(getString(R.string.key_change_passcode))) {
-            startActivityForResult(
-                    new Intent(getActivity(), PasscodePreferenceActivity.class),
-                    REQUEST_CHANGE_PASSCODE
-            );
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onPreferenceChange(Preference preference,
-                                      Object newValue) {
-
-        //
-        // Set Preference : enable_passcode
-        //
-
-        if (preference.getKey()
-                      .equals(getString(R.string.key_enable_passcode))) {
-
+        mCheckBoxPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             if ((Boolean) newValue) {
-
-                startActivityForResult(new Intent(getActivity(),
-                                                  PasscodePreferenceActivity.class),
-                                       GeneralPreferenceFragment.PASSCODE_REQUEST_CODE);
-
+                final Intent intent = new Intent(getActivity(), PasscodePreferenceActivity.class);
+                startActivityForResult(intent, PASSCODE_REQUEST_CODE);
             } else {
-
-                Intent passIntent = new Intent(getActivity(),
-                                               PasscodeLockScreenActivity.class);
-                passIntent.putExtra(UxArgument.DISABLE_PASSCODE,
-                                    UxArgument.DISABLE_PASSCODE);
-                startActivityForResult(passIntent,
-                                       GeneralPreferenceFragment.REQUEST_DISABLE_PASSCODE);
+                final Intent passIntent = new Intent(getActivity(), PasscodeLockScreenActivity.class);
+                passIntent.putExtra(UxArgument.DISABLE_PASSCODE, UxArgument.DISABLE_PASSCODE);
+                startActivityForResult(passIntent, REQUEST_DISABLE_PASSCODE);
             }
-        }
-
-        //
-        // Set Preference : use_color_in_reports
-        //
-
-        if (preference.getKey()
-                      .equals(getString(R.string.key_use_account_color))) {
-
-            getPreferenceManager().getSharedPreferences()
-                                  .edit()
-                                  .putBoolean(getString(R.string.key_use_account_color),
-                                              Boolean.valueOf(newValue.toString()))
-                                  .commit();
-        }
-
-        //
-        // Set Preference : key_account_searchable_spinner_openkeyboard
-        //
-
-        if (preference.getKey()
-                      .equals(getString(R.string.key_shall_open_keyboard_in_account_searchable_spinner))) {
-
-            // Store the new value of the Preference
-            getPreferenceManager().getSharedPreferences()
-                                  .edit()
-                                  .putBoolean(getString(R.string.key_shall_open_keyboard_in_account_searchable_spinner),
-                                              Boolean.valueOf(newValue.toString()))
-                                  .commit();
-        }
-
-        //
-        // Set Preference : use_color_in_account_list
-        //
-
-        if (preference.getKey()
-                      .equals(getString(R.string.key_use_color_in_account_list))) {
-
-            // Store the new value of the Preference
-            getPreferenceManager().getSharedPreferences()
-                                  .edit()
-                                  .putBoolean(getString(R.string.key_use_color_in_account_list),
-                                              Boolean.valueOf(newValue.toString()))
-                                  .commit();
-        }
-
-        return true;
+            return true;
+        });
+        findPreference(getString(R.string.key_change_passcode)).setOnPreferenceClickListener(preference -> {
+            startActivityForResult(new Intent(getActivity(), PasscodePreferenceActivity.class), REQUEST_CHANGE_PASSCODE);
+            return true;
+        });
+        findPreference(getString(R.string.key_theme_option)).setOnPreferenceChangeListener((preference, newValue) -> {
+            // Live-update theme
+            final AppCompatDelegate delegate = getCompatActivity().getDelegate();
+            delegate.setLocalNightMode(GnuCashApplication.getInstance().configureDayNight((String) newValue));
+            delegate.applyDayNight();
+            return true;
+        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (mEditor == null){
+        if (mEditor == null) {
             mEditor = getPreferenceManager().getSharedPreferences().edit();
         }
 
@@ -215,7 +141,6 @@ public class GeneralPreferenceFragment extends PreferenceFragmentCompat implemen
                 }
                 break;
         }
-        mEditor.commit();
+        mEditor.apply();
     }
-
 }

@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/prefs_ui_category_title">
+
+        <ListPreference
+            android:key="@string/key_theme_option"
+            android:title="@string/prefs_ui_title_theme_option"
+            android:entries="@array/theme_options"
+            android:entryValues="@array/key_theme_options"
+            android:defaultValue="@string/key_theme_options_default" />
 
         <CheckBoxPreference
             android:key="@string/key_shall_open_keyboard_in_account_searchable_spinner"
             android:title="@string/prefs_ui_title_account_searchable_spinner_openkeyboard"
             android:summary="@string/prefs_ui_summary_account_searchable_spinner_openkeyboard"
-            android:defaultValue="true"/>
+            android:defaultValue="true" />
 
         <CheckBoxPreference
             android:key="@string/key_use_color_in_account_list"
             android:title="@string/prefs_ui_title_use_color_in_account_list"
             android:summary="@string/prefs_ui_summary_use_color_in_account_list"
-            android:defaultValue="true"/>
+            android:defaultValue="true" />
 
     </PreferenceCategory>
 

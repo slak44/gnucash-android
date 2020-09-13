@@ -510,4 +510,10 @@
     <string name="prefs_ui_title_account_searchable_spinner_openkeyboard">Show keyboard in Searchable Account List</string>
     <string name="prefs_ui_summary_account_searchable_spinner_openkeyboard">Show keyboard when opening a Searchable Account List</string>
 
+    <string name="prefs_ui_title_theme_option">Application Theme</string>
+    <string-array name="theme_options">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Follow System</item>
+    </string-array>
 </resources>
