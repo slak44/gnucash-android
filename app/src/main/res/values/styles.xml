@@ -77,6 +77,10 @@
     <style name="TextAppearance" parent="android:TextAppearance">
     </style>
 
+    <style name="TextAppearance.RecurrencePickerStyle" parent="TextAppearance">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
     <style name="TextAppearance.EditTransaction_Small">
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="textAllCaps">true</item>
@@ -158,7 +162,7 @@
         <item name="android:tint">?attr/colorControlNormal</item>
     </style>
 
-    <style name="ActionMenuText" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="ActionMenuText" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">true</item>
     </style>

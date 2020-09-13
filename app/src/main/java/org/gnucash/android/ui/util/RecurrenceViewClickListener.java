@@ -19,6 +19,8 @@ package org.gnucash.android.ui.util;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -27,6 +29,8 @@ import com.codetroopers.betterpickers.recurrencepicker.RecurrencePickerDialogFra
 import com.codetroopers.betterpickers.recurrencepicker.RecurrencePickerDialogFragment.OnRecurrenceSetListener;
 
 import org.gnucash.android.R;
+
+import java.util.Objects;
 
 import static androidx.fragment.app.DialogFragment.STYLE_NORMAL;
 
@@ -58,11 +62,11 @@ public class RecurrenceViewClickListener implements View.OnClickListener {
         // may be more efficient to serialize and pass in EventRecurrence
         b.putString(RecurrencePickerDialogFragment.BUNDLE_RRULE, mRecurrenceRule);
 
-        RecurrencePickerDialogFragment rpd = (RecurrencePickerDialogFragment) fm.findFragmentByTag(FRAGMENT_TAG_RECURRENCE_PICKER);
+        ThemeRecurrenceDialogFragment rpd = (ThemeRecurrenceDialogFragment) fm.findFragmentByTag(FRAGMENT_TAG_RECURRENCE_PICKER);
         if (rpd != null) {
             rpd.dismiss();
         }
-        rpd = new RecurrencePickerDialogFragment();
+        rpd = new ThemeRecurrenceDialogFragment();
         rpd.setStyle(STYLE_NORMAL, R.style.Theme_GnucashTheme_Dialog);
         rpd.setArguments(b);
         rpd.setOnRecurrenceSetListener(mRecurrenceSetListener);

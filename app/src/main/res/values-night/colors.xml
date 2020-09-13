@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="recurrence_picker_background" tools:override="true">#FF424242</color>
+    <color name="recurrence_spinner_text_color" tools:override="true" tools:ignore="MissingDefaultResource">#FFFFFF</color>
 </resources>
