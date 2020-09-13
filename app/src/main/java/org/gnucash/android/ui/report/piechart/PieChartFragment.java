@@ -38,7 +38,7 @@ import org.gnucash.android.model.Account;
 import org.gnucash.android.ui.report.BaseReportFragment;
 import org.gnucash.android.ui.report.ReportType;
 import org.gnucash.android.ui.report.ReportsActivity;
-import org.gnucash.android.ui.util.TextUtil;
+import org.gnucash.android.ui.util.AttrUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,7 +90,7 @@ public class PieChartFragment extends BaseReportFragment {
 
         mAccountsDbAdapter = AccountsDbAdapter.getInstance();
 
-        final int textColor = TextUtil.getTextPrimary(getContext());
+        final int textColor = AttrUtil.getTextPrimary(getContext());
 
         mChart.setHoleColorTransparent(true);
         mChart.setCenterTextColor(textColor);

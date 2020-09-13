@@ -63,7 +63,7 @@ import org.gnucash.android.ui.common.FormActivity;
 import org.gnucash.android.ui.common.Refreshable;
 import org.gnucash.android.ui.common.UxArgument;
 import org.gnucash.android.ui.util.AccountBalanceTask;
-import org.gnucash.android.ui.util.TextUtil;
+import org.gnucash.android.ui.util.AttrUtil;
 import org.gnucash.android.ui.util.widget.searchablespinner.SearchableSpinnerView;
 import org.gnucash.android.util.QualifiedAccountNameCursorAdapter;
 import org.joda.time.LocalDate;
@@ -525,7 +525,7 @@ public class TransactionsActivity extends BaseDrawerActivity implements
         balanceTextView.setText(balance.formattedString());
         final Context context = GnuCashApplication.getAppContext();
         final @ColorInt int fontColor =
-                balance.isAmountZero() ? TextUtil.getTextPrimary(balanceTextView.getContext()) :
+                balance.isAmountZero() ? AttrUtil.getTextPrimary(balanceTextView.getContext()) :
                         balance.isNegative() ?
                                 context.getResources().getColor(R.color.debit_red) :
                                 context.getResources().getColor(R.color.credit_green);

@@ -42,7 +42,7 @@ import org.gnucash.android.model.Account;
 import org.gnucash.android.model.AccountType;
 import org.gnucash.android.ui.report.BaseReportFragment;
 import org.gnucash.android.ui.report.ReportType;
-import org.gnucash.android.ui.util.TextUtil;
+import org.gnucash.android.ui.util.AttrUtil;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
@@ -102,7 +102,7 @@ public class StackedBarChartFragment extends BaseReportFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final int textColor = TextUtil.getTextPrimary(getContext());
+        final int textColor = AttrUtil.getTextPrimary(getContext());
 
         mUseAccountColor = PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .getBoolean(getString(R.string.key_use_account_color), false);

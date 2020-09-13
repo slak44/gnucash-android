@@ -40,7 +40,7 @@ import org.gnucash.android.model.AccountType;
 import org.gnucash.android.ui.report.BaseReportFragment;
 import org.gnucash.android.ui.report.ReportType;
 import org.gnucash.android.ui.report.ReportsActivity.GroupInterval;
-import org.gnucash.android.ui.util.TextUtil;
+import org.gnucash.android.ui.util.AttrUtil;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
@@ -99,7 +99,7 @@ public class CashFlowLineChartFragment extends BaseReportFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final int textColor = TextUtil.getTextPrimary(getContext());
+        final int textColor = AttrUtil.getTextPrimary(getContext());
 
         mChart.setDescriptionColor(textColor);
         mChart.setGridBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -185,7 +185,7 @@ public class CashFlowLineChartFragment extends BaseReportFragment {
             return getEmptyData();
         }
 
-        lineData.setValueTextColor(TextUtil.getTextPrimary(getContext()));
+        lineData.setValueTextColor(AttrUtil.getTextPrimary(getContext()));
         return lineData;
     }
 

@@ -16,7 +16,6 @@
 package org.gnucash.android.ui.report;
 
 import android.content.res.ColorStateList;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -24,7 +23,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentManager;
@@ -46,7 +44,7 @@ import org.gnucash.android.ui.report.linechart.CashFlowLineChartFragment;
 import org.gnucash.android.ui.report.piechart.PieChartFragment;
 import org.gnucash.android.ui.report.sheet.BalanceSheetFragment;
 import org.gnucash.android.ui.transaction.TransactionsActivity;
-import org.gnucash.android.ui.util.TextUtil;
+import org.gnucash.android.ui.util.AttrUtil;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
@@ -129,7 +127,7 @@ public class ReportsOverviewFragment extends BaseReportFragment {
 
         setHasOptionsMenu(false);
 
-        final int textColor = TextUtil.getTextPrimary(getContext());
+        final int textColor = AttrUtil.getTextPrimary(getContext());
 
         mChart.setHoleColorTransparent(true);
         mChart.setTransparentCircleColor(getResources().getColor(android.R.color.transparent));

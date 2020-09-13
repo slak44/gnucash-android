@@ -8,12 +8,16 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-public class TextUtil {
-    private TextUtil() {
+public class AttrUtil {
+    private AttrUtil() {
     }
 
     public static int getTextPrimary(@NonNull Context themedContext) {
         return getColorAttribute(themedContext, android.R.attr.textColorPrimary);
+    }
+
+    public static int getBackground(@NonNull Context themedContext) {
+        return getColorAttribute(themedContext, android.R.attr.colorBackground);
     }
 
     public static int getColorAttribute(@NonNull Context themedContext, @AttrRes int attr) {
