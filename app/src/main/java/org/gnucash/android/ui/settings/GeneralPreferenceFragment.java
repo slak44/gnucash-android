@@ -16,6 +16,7 @@
 
 package org.gnucash.android.ui.settings;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +32,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import org.gnucash.android.R;
 import org.gnucash.android.app.GnuCashApplication;
+import org.gnucash.android.ui.account.AccountsActivity;
 import org.gnucash.android.ui.common.UxArgument;
 import org.gnucash.android.ui.passcode.PasscodeLockScreenActivity;
 import org.gnucash.android.ui.passcode.PasscodePreferenceActivity;
@@ -79,6 +81,8 @@ public class GeneralPreferenceFragment extends PreferenceFragmentCompat {
         actionBar.setTitle(R.string.title_general_prefs);
     }
 
+    // In this case, commit is actually required over apply
+    @SuppressLint("ApplySharedPref")
     @Override
     public void onResume() {
         super.onResume();
@@ -104,7 +108,19 @@ public class GeneralPreferenceFragment extends PreferenceFragmentCompat {
             final AppCompatDelegate delegate = getCompatActivity().getDelegate();
             delegate.setLocalNightMode(GnuCashApplication.getInstance().configureDayNight((String) newValue));
             delegate.applyDayNight();
-            return true;
+
+            // Manually persist value, because we need to use commit (this avoids a race condition)
+            getPreferenceManager().getSharedPreferences()
+                    .edit()
+                    .putString(getString(R.string.key_theme_option), (String) newValue)
+                    .commit();
+
+            // Restart the app, because the back-stack isn't getting the new theme
+            final Intent restartAppIntent = new Intent(getActivity(), AccountsActivity.class);
+            restartAppIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(restartAppIntent);
+
+            return false;
         });
     }
 
