@@ -20,24 +20,26 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.StringRes;
-import com.google.android.material.navigation.NavigationView;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 import com.uservoice.uservoicesdk.UserVoice;
 
 import org.gnucash.android.R;
@@ -74,10 +76,10 @@ import butterknife.ButterKnife;
  *
  * @author Ngewi Fet <ngewif@gmail.com>
  */
-public abstract class BaseDrawerActivity extends PasscodeLockActivity implements
-        PopupMenu.OnMenuItemClickListener {
-
+public abstract class BaseDrawerActivity extends PasscodeLockActivity implements PopupMenu.OnMenuItemClickListener {
     public static final int ID_MANAGE_BOOKS = 0xB00C;
+    public static final int REQUEST_OPEN_DOCUMENT = 0x20;
+
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
@@ -90,16 +92,12 @@ public abstract class BaseDrawerActivity extends PasscodeLockActivity implements
 
     protected ActionBarDrawerToggle mDrawerToggle;
 
-    public static final int REQUEST_OPEN_DOCUMENT = 0x20;
-
     private class DrawerItemClickListener implements NavigationView.OnNavigationItemSelectedListener {
-
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
             onDrawerMenuItemClicked(menuItem.getItemId());
             return true;
         }
-
     }
 
     @Override
@@ -107,7 +105,7 @@ public abstract class BaseDrawerActivity extends PasscodeLockActivity implements
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
 
-        //if a parameter was passed to open an account within a specific book, then switch
+        // if a parameter was passed to open an account within a specific book, then switch
         String bookUID = getIntent().getStringExtra(UxArgument.BOOK_UID);
         if (bookUID != null && !bookUID.equals(BooksDbAdapter.getInstance().getActiveBookUID())) {
             BookUtils.activateBook(bookUID);
@@ -122,7 +120,7 @@ public abstract class BaseDrawerActivity extends PasscodeLockActivity implements
             actionBar.setTitle(getTitleRes());
         }
 
-        mToolbarProgress.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        mToolbarProgress.getIndeterminateDrawable().setColorFilter(new BlendModeColorFilter(Color.WHITE, BlendMode.SRC_IN));
 
         View headerView = mNavigationView.getHeaderView(0);
         headerView.findViewById(R.id.drawer_title).setOnClickListener(this::onClickAppTitle);
@@ -192,7 +190,7 @@ public abstract class BaseDrawerActivity extends PasscodeLockActivity implements
             }
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
     @Override
@@ -210,10 +208,11 @@ public abstract class BaseDrawerActivity extends PasscodeLockActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (!mDrawerLayout.isDrawerOpen(mNavigationView))
+            if (!mDrawerLayout.isDrawerOpen(mNavigationView)) {
                 mDrawerLayout.openDrawer(mNavigationView);
-            else
+            } else {
                 mDrawerLayout.closeDrawer(mNavigationView);
+            }
             return true;
         }
 
@@ -233,7 +232,7 @@ public abstract class BaseDrawerActivity extends PasscodeLockActivity implements
     protected void onDrawerMenuItemClicked(int itemId) {
         switch (itemId) {
             case R.id.nav_item_open: { //Open... files
-                //use the storage access framework
+                // use the storage access framework
                 Intent openDocument = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 openDocument.addCategory(Intent.CATEGORY_OPENABLE);
                 openDocument.setType("text/*|application/*");
